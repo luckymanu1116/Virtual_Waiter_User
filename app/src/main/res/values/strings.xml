@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Virtual Waiter</string>
+
+    <string name="Email_Address">Email Address</string>
+    <string name="Password">Password</string>
+    <string name="Confirm_Password">Confirm Password</string>
+    <string name="Sign_In">Sign In</string>
+    <string name="Sign_Up">SignUP</string>
+
+    <string name="Full_Name">Enter Name</string>
+    <string name="Gender_Type">Gender</string>
+    <string name="Phone_Number">Phone Number</string>
+
+    <array name="Gender_List">
+        <item>Male</item>
+        <item>Female</item>
+    </array>
+
+    <string name="Dont_have_account">Don\'t Have Account?</string>
+
+    <string name="Trouble_Logging_In">Trouble Logging in? </string>
+
+    <string name="Reset">Reset Your Password</string>
+    <string name="Send">Send</string>
+    <string name="Otp">Enter Otp</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

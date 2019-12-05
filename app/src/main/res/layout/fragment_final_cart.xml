@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent">
+    <ListView
+        android:id="@+id/ListViewFinalCart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/totalcost"
+        android:text="Total Cost = "
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="20dp"
+        style="@style/title"
+        android:layout_below="@id/ListViewFinalCart">
+    </TextView>
+
+    <TextView
+        android:id="@+id/costfinal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ListViewFinalCart"
+        android:layout_centerHorizontal="true"
+        style="@style/title"
+        android:layout_marginLeft="75dp"
+        android:layout_marginTop="27dp"
+        android:layout_toRightOf="@id/totalcost"></TextView>
+
+    <Button
+        android:id="@+id/payment"
+        style="@style/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/totalcost"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="23dp"
+        android:background="@drawable/brn_red_rect"
+        android:text="Paynow"></Button>
+
+    <Button
+        android:id="@+id/Cash"
+        style="@style/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/payment"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="22dp"
+        android:background="@drawable/brn_red_rect"
+        android:text="Cash"></Button>
+</RelativeLayout>

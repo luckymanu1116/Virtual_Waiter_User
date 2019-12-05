@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl1"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please Choose Table No"
+        android:id="@+id/tabletext"
+        android:textStyle="bold"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="25dp"
+        android:textSize="30sp"/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tabletext"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="180dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tablenum"
+            android:hint="Please Give your Table Number">
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/tbnumbtn"
+        style="@style/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabletext"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="335dp"
+        android:background="@drawable/brn_red_rect"
+        android:textColor="@color/White"
+        android:text="Submit"></Button>
+</RelativeLayout>
