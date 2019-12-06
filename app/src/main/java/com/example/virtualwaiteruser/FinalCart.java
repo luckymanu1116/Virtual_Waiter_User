@@ -62,9 +62,9 @@ public class FinalCart extends Fragment {
       Long cost1,total,nv;
     final int UPI_PAYMENT = 0;
     String name,qnt,v;
-    String payeeAddress = "8374042767@ybl";
-    String payeeName = "First Step Corporation";
-    String transactionNote = "FirstStep corporation:";
+    String payeeAddress = "9915237774@ybl";
+    String payeeName = "Virtual Waiter";
+    String transactionNote = "Today's Order:";
     String amount;
     TextView totals;
     String currencyUnit = "INR";
