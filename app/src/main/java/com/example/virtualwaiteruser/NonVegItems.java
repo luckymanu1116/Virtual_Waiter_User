@@ -80,7 +80,7 @@ public class NonVegItems extends Fragment {
                         cost1=(dataSnapshot1.child("cost").getValue(Long.class));
                         ItemDetails itemDetails=new ItemDetails(cost1,name);
                         itemDetailsArrayListNonveg.add(itemDetails);
-                        Log.e("Non-VegItems",itemDetails.name);
+//                        Log.e("Non-VegItems",itemDetails.name);
                     }
                 }
                 myAdapterForNonVegItems.notifyDataSetChanged();

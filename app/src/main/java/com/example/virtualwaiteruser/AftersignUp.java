@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AftersignUp extends AppCompatActivity {
 
@@ -23,11 +24,23 @@ public class AftersignUp extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent n=new Intent(AftersignUp.this,MainActivity.class);
-                startActivity(n);
+                int n= Integer.parseInt(tablenum.getText().toString());
+                if(n<=10) {
+                    Intent m = new Intent(AftersignUp.this, MainActivity.class);
+                    startActivity(m);
+                }
+                else
+                {
+                    Toast.makeText(AftersignUp.this, "Please Enter Table number between 1-10", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AftersignUp.this, "Invalid Table Number", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

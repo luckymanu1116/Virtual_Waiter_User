@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Build;
@@ -48,6 +50,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.EventListener;
 
+import static android.app.Activity.RESULT_OK;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,20 +60,20 @@ public class FinalCart extends Fragment {
 
 
       Long cost1,total,nv;
+    final int UPI_PAYMENT = 0;
     String name,qnt,v;
-    final int UPIPAYMENT=0;
+    String payeeAddress = "8374042767@ybl";
+    String payeeName = "First Step Corporation";
+    String transactionNote = "FirstStep corporation:";
+    String amount;
     TextView totals;
-    String upid="saiprudhvireddyg69@okicici";
+    String currencyUnit = "INR";
     Button paynow,cash;
     public ArrayList<FinalCartDetails> ArraylstFnc = new ArrayList<>();
     FinalCart.MyAdapterFc myAdapterFc;
     FirebaseUser user;
     String uid;
-    static String ff;
-    int transid=1,refid=1;
     DatabaseReference ref;
-    static EasyUpiPayment easyUpiPayment;
-
 
     FinalCartDetails finalCartDetails;
     @Override
@@ -102,14 +106,15 @@ public class FinalCart extends Fragment {
                                     DatabaseReference copyto = FirebaseDatabase.getInstance().getReference("Orders");
                                     DatabaseReference copyfrom = FirebaseDatabase.getInstance().getReference(uid);
                                     copy(copyfrom, copyto);
+                                    BuyNowPage();
                                     Toast.makeText(getActivity(), "Your Order Receieved ....We will Serve you shortly", Toast.LENGTH_LONG).show();
-                                    easyUpiPayment.startPayment();
+                                    /*easyUpiPayment.startPayment();
                                     Fragment newFragment = new Home();
                                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                                     ft.replace(R.id.mainframe_frame, newFragment);
                                     ft.addToBackStack("cartItems");
-                                    ft.commit();
-
+                                    ft.commit();*/
+                                    FirebaseDatabase.getInstance().getReference(uid).setValue(null);
                                 }
                             });
 
@@ -130,13 +135,69 @@ public class FinalCart extends Fragment {
 
             });
 
-        Toast.makeText(getActivity(), ""+total, Toast.LENGTH_LONG).show();
+       //Toast.makeText(getActivity(), ""+total, Toast.LENGTH_LONG).show();
        // totals.setText(nv.toString());
         ListView listView = v.findViewById(R.id.ListViewFinalCart);
         myAdapterFc=new MyAdapterFc(getActivity(),R.layout.recyclerview_items,ArraylstFnc);
         listView.setAdapter(myAdapterFc);
         return v;
     }
+    private void BuyNowPage()
+    {
+        amount=myAdapterFc.ff;
+            Uri uri = Uri.parse("upi://pay?pa="+payeeAddress+"&pn="+payeeName+"&tn="+transactionNote+
+                    "&am="+amount+"&cu="+currencyUnit);
+            Log.d("CompleteViewOfProduct", "onClick: uri: "+uri);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivityForResult(intent,2);
+
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1)
+        {
+            if (requestCode == 1) {
+                if (resultCode == 0) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Payment Failed", Toast.LENGTH_LONG).show();
+                } else if (resultCode == 1) {
+                    Toast.makeText(getActivity(), "Payment success", Toast.LENGTH_SHORT).show();
+                }
+            } else if (requestCode == 2) {
+                Log.d("CompleteViewOfProduct", "onActivityResult: requestCode: " + requestCode);
+                Log.d("CompleteViewOfProduct", "onActivityResult: resultCode: " + resultCode);
+                //txnId=UPI20b6226edaef4c139ed7cc38710095a3&responseCode=00&ApprovalRefNo=null&Status=SUCCESS&txnRef=undefined
+                //txnId=UPI608f070ee644467aa78d1ccf5c9ce39b&responseCode=ZM&ApprovalRefNo=null&Status=FAILURE&txnRef=undefined
+
+                if (data != null) {
+                    Log.d("CompleteViewOfProduct", "onActivityResult: data: " + data.getStringExtra("response"));
+                    String res = data.getStringExtra("response");
+                    String search = "SUCCESS";
+                    if (res.toLowerCase().contains(search.toLowerCase()))
+                    {
+                        Fragment newFragment;
+                        FragmentTransaction ft;
+                        newFragment=new PreviousOrders();
+                        ft =getActivity().getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.mainframe_frame,newFragment);
+                        ft.commit();
+                        //Toast.makeText(getActivity(), "Payment Successful", Toast.LENGTH_SHORT).show();
+
+                    } else
+                        {
+
+                        Toast.makeText(getActivity(), "Payment Failed", Toast.LENGTH_SHORT).show();
+                        Log.e("CompleteViewOfProduct", "Payment failed");
+
+                    }
+                }
+            }
+        }
+    }
+
+
+
 
     private void copy(DatabaseReference copyfrom, final DatabaseReference copyto)
     {
@@ -168,7 +229,7 @@ public class FinalCart extends Fragment {
 
     class MyAdapterFc extends ArrayAdapter<FinalCartDetails>
     {
-
+        String ff;
         public MyAdapterFc(@NonNull Context context, int resource, @NonNull ArrayList<FinalCartDetails> objects)
         {
             super(context, resource, objects);
@@ -179,6 +240,7 @@ public class FinalCart extends Fragment {
         @Override
         public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent)
         {
+
             convertView=LayoutInflater.from(getActivity()).inflate(R.layout.recyclerview_finalcart, parent, false);
             TextView ItemName = convertView.findViewById(R.id.ItemName);
             final TextView ItemCost = convertView.findViewById(R.id.ItemCost);
@@ -207,6 +269,16 @@ public class FinalCart extends Fragment {
                 public void onClick(View v)
                 {
                     ArraylstFnc.clear();
+                    DatabaseReference copyto = FirebaseDatabase.getInstance().getReference("Orders");
+                    DatabaseReference copyfrom = FirebaseDatabase.getInstance().getReference(uid);
+                    copy(copyfrom,copyto);
+                    Fragment newFragment;
+                    FragmentTransaction ft;
+                    newFragment=new PreviousOrders();
+                    ft =getActivity().getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.mainframe_frame,newFragment);
+                    ft.commit();
+
                     Toast.makeText(getActivity(), "Please Wait We will Serve you here..!", Toast.LENGTH_LONG).show();
 
                 }
@@ -214,10 +286,9 @@ public class FinalCart extends Fragment {
 
             /*Activity activity=getActivity();
             easyUpiPayment.setPaymentStatusListener(activity);*/
-            DecimalFormat decimalFormat=new DecimalFormat("#.00");
-            ff=decimalFormat.format(nv);
-            String upiid="9915237774@ybl";
-            String tid=String.valueOf(transid);
+           DecimalFormat decimalFormat=new DecimalFormat("#.00");
+             ff=decimalFormat.format(nv);
+            /*String tid=String.valueOf(transid);
             String rfd=String.valueOf(refid);
              easyUpiPayment = new EasyUpiPayment.Builder()
                     .with(getActivity())
@@ -226,10 +297,12 @@ public class FinalCart extends Fragment {
                     .setTransactionId(tid).setTransactionRefId(rfd)
                     .setDescription("For Today's Food")
                     .setAmount(ff)
-                    .build();
+                    .build();*/
+
 
             return convertView;
         }
+
 
         public int getCount() {
             return super.getCount();

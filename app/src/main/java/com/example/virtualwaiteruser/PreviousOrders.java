@@ -105,7 +105,7 @@ public class PreviousOrders extends Fragment {
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
         {
-            convertView=LayoutInflater.from(getActivity()).inflate(R.layout.recyclerview_finalcart,parent,false);
+            convertView=LayoutInflater.from(getActivity()).inflate(R.layout.previousorder,parent,false);
             final TextView ItemName = convertView.findViewById(R.id.ItemName);
             final TextView ItemCost = convertView.findViewById(R.id.ItemCost);
             final TextView qnt=convertView.findViewById(R.id.Quantity);

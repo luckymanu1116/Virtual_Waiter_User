@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements PaymentStatusList
                         ft = getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.mainframe_frame,newFragment);
                         ft.commit();
-                        Toast.makeText(MainActivity.this, "printing", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "printing", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.Profiel:
                         newFragment = new Profile1();
