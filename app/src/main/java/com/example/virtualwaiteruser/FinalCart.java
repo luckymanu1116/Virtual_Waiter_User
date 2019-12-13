@@ -87,6 +87,7 @@ public class FinalCart extends Fragment {
         user= FirebaseAuth.getInstance().getCurrentUser();
         uid=user.getUid();
         total=0l;
+        Toast.makeText(getActivity(), "HEllo", Toast.LENGTH_SHORT).show();
         ref = FirebaseDatabase.getInstance().getReference();
         totals=v.findViewById(R.id.costfinal);
             final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(uid);
